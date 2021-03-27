@@ -1,0 +1,114 @@
+@import 'bootstrap/scss/bootstrap-grid.scss';
+@import 'bootstrap/scss/mixins.scss';
+@import 'bootstrap/scss/utilities.scss';
+@import 'bootstrap/scss/type.scss';
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+.modal-mask {
+  position: fixed;
+  z-index: 100;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.3);
+  display: table;
+  transition: opacity 0.3s ease;
+}
+
+.modal-wrapper {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.modal-container {
+  max-width: 600px;
+  margin: 0px auto;
+  padding: 20px 30px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
+  overflow-y: auto;
+  max-height: 585px;
+}
+
+.modal-body {
+  margin-top: 60px;
+  margin-bottom: 0;
+}
+
+.modal-header {
+  position: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #fff;
+  padding-top: 10px;
+  z-index: 101;
+  width: 530px;
+}
+
+.Vue-Toastification__toast {
+  padding: 22px 24px !important;
+}
+
+.Vue-Toastification__icon {
+  margin-right: 6px !important;
+}
+
+.el-button {
+  padding: 0 1rem !important;
+}
+
+#sign-button {
+  padding: 0 2.5rem !important;
+}
+
+.el-input__inner {
+  padding-left: 10px !important;
+}
+
+.el-date-editor {
+  .el-input__inner {
+    padding-left: 30px !important;
+  }
+}
+
+.el-date-picker__header {
+  margin: 12px !important;
+}
+
+.el-form-item__label {
+  margin-top: 10px !important;
+  line-height: 15px !important;
+}
+
+.el-alert {
+  padding: 5px 10px !important;
+}
+
+.send-again {
+  color: #66c2ff;
+  text-decoration: none;
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.el-menu {
+  border-right: none !important;
+}

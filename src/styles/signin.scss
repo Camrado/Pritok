@@ -1,0 +1,90 @@
+.row {
+  margin: 0;
+}
+.col-md-4 {
+  padding: 0;
+}
+
+.el-carousel__item {
+  text-align: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.carousel-body {
+  position: relative;
+  top: 45%;
+  transform: translateY(-50%);
+  text-align: center;
+  padding: 0 5vw;
+  color: #e2dbdb;
+
+  h3 {
+    margin-bottom: 20px;
+  }
+}
+
+.carousel-1 {
+  background-image: url('../assets/img/sign-slider/pic2.jpg');
+}
+.carousel-2 {
+  background-image: url('../assets/img/sign-slider/pic1.jpg');
+  background-blend-mode: multiply;
+}
+.carousel-3 {
+  background-image: url('../assets/img/sign-slider/pic3.jpg');
+  background-blend-mode: multiply;
+}
+
+.col-md-8 {
+  position: relative;
+}
+
+.content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 70%;
+  height: 55%;
+  color: #495057;
+
+  &__header {
+    .logo {
+      height: 1.7rem;
+      margin-bottom: 2rem;
+    }
+
+    p:nth-child(3) {
+      margin-bottom: 1rem;
+    }
+
+    p:nth-child(4) {
+      margin-bottom: 0.6rem;
+    }
+
+    a {
+      color: #627dc1;
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
+.el-form {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+
+  .el-form-item {
+    width: 49%;
+  }
+}
+
+.el-button {
+  float: right;
+}

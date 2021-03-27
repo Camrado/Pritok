@@ -9,6 +9,5 @@ module.exports = {
   devServer: {
     port: 8100,
     historyApiFallback: true
-  },
-  publicPath: process.env.NODE_ENV === 'production' ? '/pritok/' : '/'
+  }
 };

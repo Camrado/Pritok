@@ -8,7 +8,7 @@ const routes = [
     name: 'Home',
     component: () => import(/* webpackChunkName: "home" */ '@/views/Home.vue'),
     meta: {
-      title: 'Home page'
+      title: 'Pritok - Home page'
     }
   },
   {
@@ -16,7 +16,7 @@ const routes = [
     name: 'Purchases',
     component: () => import(/* webpackChunkName: "purchases" */ '@/views/Purchases.vue'),
     meta: {
-      title: 'Purchases page'
+      title: 'Pritok - Purchases page'
     }
   },
   {
@@ -24,7 +24,7 @@ const routes = [
     name: 'Categories',
     component: () => import(/* webpackChunkName: "categories" */ '@/views/Categories.vue'),
     meta: {
-      title: 'Categories page'
+      title: 'Pritok - Categories page'
     }
   },
   {
@@ -32,7 +32,7 @@ const routes = [
     name: 'SignUp',
     component: () => import(/* webpackChunkName: "signup" */ '@/views/SignUp.vue'),
     meta: {
-      title: 'Sign Up'
+      title: 'Pritok - Sign Up'
     }
   },
   {
@@ -40,7 +40,7 @@ const routes = [
     name: 'SignIn',
     component: () => import(/* webpackChunkName: "signin" */ '@/views/SignIn.vue'),
     meta: {
-      title: 'Sign In'
+      title: 'Pritok - Sign In'
     }
   },
   {
@@ -48,7 +48,7 @@ const routes = [
     name: 'VerifyEmail',
     component: () => import(/* webpackChunkName: "verifyemail" */ '@/views/VerifyEmail.vue'),
     meta: {
-      title: 'Verify Email'
+      title: 'Pritok - Confirm Your Email'
     }
   },
   {
@@ -56,7 +56,7 @@ const routes = [
     name: 'ContactUs',
     component: () => import(/* webpackChunkName: "contactUs" */ '@/views/ContactUs.vue'),
     meta: {
-      title: 'Contact Us'
+      title: 'Pritok - Contact Us'
     }
   },
   {
@@ -64,7 +64,7 @@ const routes = [
     name: 'Settings',
     component: () => import(/* webpackChunkName: "settings" */ '@/views/Settings.vue'),
     meta: {
-      title: 'Account settings'
+      title: 'Pritok - Account settings'
     }
   },
   {
@@ -72,7 +72,7 @@ const routes = [
     name: 'NotFound',
     component: () => import(/* webpackChunkName: "404" */ '@/views/NotFound.vue'),
     meta: {
-      title: '404'
+      title: 'Pritok - 404 Page Not Found'
     }
   }
 ];

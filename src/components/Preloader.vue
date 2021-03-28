@@ -20,7 +20,7 @@ export default {
 <style lang="scss" scoped>
 .loader {
   position: fixed;
-  z-index: 1000;
+  z-index: 1000000000000;
   top: 0;
   left: 0;
   width: 100%;
@@ -31,22 +31,19 @@ export default {
   align-items: center;
 
   &__image {
-    width: 800px;
-    height: 600px;
-    background-image: url('../assets/img/loader.gif');
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 4rem;
+    height: 4rem;
+    background-image: url('../assets/img/icons/loading.gif');
     background-size: cover;
     background-repeat: no-repeat;
   }
 }
 
 .loader.hidden {
-  animation: fadeOut 1s forwards;
-}
-
-@keyframes fadeOut {
-  to {
-    opacity: 0;
-    visibility: hidden;
-  }
+  display: none;
 }
 </style>

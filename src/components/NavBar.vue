@@ -22,7 +22,7 @@
           <template #dropdown>
             <div class="dropdown__header">
               <div class="dropdown__header_account">
-                <el-avatar>
+                <el-avatar class="mr-2">
                   <span class="profile-text">{{ state.name[0] + state.name[1] }}</span>
                 </el-avatar>
                 <p>{{ state.name }}</p>

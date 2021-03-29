@@ -2,7 +2,7 @@ export const Categories = {
   namespaced: true,
 
   state: {
-    url: 'http://localhost:3000/category',
+    url: 'https://pritok-back.herokuapp.com/category',
     pageSize: 10,
     skip: 0,
     pageNum: 1,

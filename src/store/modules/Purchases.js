@@ -6,7 +6,7 @@ export const Purchases = {
   namespaced: true,
 
   state: {
-    url: 'http://localhost:3000/purchase',
+    url: 'https://pritok-back.herokuapp.com/purchase',
     fromDate: '',
     toDate: '',
     pageSize: 10,

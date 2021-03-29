@@ -4,7 +4,7 @@ export const User = {
   namespaced: true,
 
   state: {
-    url: 'http://localhost:3000/users',
+    url: 'https://pritok-back.herokuapp.com/users',
     jwtInLStorage: 'fnw3m43mn2fu52n3nxi4mqp23z3ifn4z44gh', // If you change its value don't forget to change values in Purchases and Categories modules
     isSignedIn: false,
     isConfirmed: false,

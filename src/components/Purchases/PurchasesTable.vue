@@ -7,12 +7,12 @@
       <el-table-column prop="price" label="Price" width="90" />
       <el-table-column prop="quantity" label="Quantity" width="100" />
       <el-table-column prop="total_price" label="Total Price" width="130" />
-      <el-table-column lable="Operations" width="45" fixed="right">
+      <el-table-column lable="Operations" width="45">
         <template #default="scope">
           <updateBtn :_id="scope.row._id" />
         </template>
       </el-table-column>
-      <el-table-column lable="Operations" width="45" fixed="right">
+      <el-table-column lable="Operations" width="45">
         <template #default="scope">
           <deleteBtn :_id="scope.row._id" />
         </template>

@@ -18,7 +18,7 @@
       <!-- Show n categories per page -->
       <div class="col text-right">
         <span>Show </span>
-        <el-select v-model.number="state.pageSize" style="width: 72px;">
+        <el-select v-model.number="state.pageSize" style="width: 72px;" :disabled="!state.clicks.allowPageSizeClick">
           <el-option class="pl-3" value="10">10</el-option>
           <el-option class="pl-3" value="25">25</el-option>
           <el-option class="pl-3" value="50">50</el-option>
@@ -48,6 +48,8 @@ import CategoriesTable from '@/components/Categories/CategoriesTable.vue';
 import InsertBtn from '@/components/Categories/insertBtn.vue';
 import { useStore } from 'vuex';
 import { onMounted, reactive, watch } from 'vue';
+import { useToast } from 'vue-toastification';
+import { useRouter } from 'vue-router';
 
 export default {
   name: 'Categories',
@@ -55,16 +57,30 @@ export default {
 
   setup() {
     const store = useStore();
+    const toast = useToast();
+    const router = useRouter();
 
     const state = reactive({
       search: '',
       pageSize: store.getters['Categories/GET_PAGE_SIZE'],
       loading: false,
       showContent: false,
-      showErrorMessage: false
+      showErrorMessage: false,
+      clicks: {
+        allowSearchClick: true,
+        allowPageSizeClick: true
+      }
     });
 
     onMounted(async () => {
+      if (!store.getters['User/GET_SIGNED_IN']) {
+        router.push('/signup');
+        return toast.info('You have to sign up before accessing this page');
+      } else if (store.getters['User/GET_SIGNED_IN'] && !store.getters['User/GET_CONFIRMED']) {
+        router.push('/confirm-email');
+        return toast.info('You have to confirm your account before accessing this page');
+      }
+
       try {
         state.loading = true;
         await store.dispatch('Categories/SET_SEARCH', '');
@@ -79,6 +95,9 @@ export default {
     });
 
     async function setSearchAndReload() {
+      if (state.clicks.allowSearchClick === false) return false;
+      state.clicks.allowSearchClick = false;
+
       state.loading = true;
       await store.dispatch('Categories/SET_SKIP', 0);
       await store.dispatch('Categories/SET_SEARCH', state.search);
@@ -90,11 +109,24 @@ export default {
     // Watch for state.pageSize and dispatch if needed
     watch(
       () => state.pageSize,
-      (newPageSize) => {
+      async (newPageSize) => {
+        state.clicks.allowPageSizeClick = false;
         state.loading = true;
-        store.dispatch('Categories/SET_PAGE_SIZE', +newPageSize);
-        store.dispatch('Categories/SELECT_DATA');
+        await store.dispatch('Categories/SET_PAGE_SIZE', +newPageSize);
+        await store.dispatch('Categories/SELECT_DATA');
         state.loading = false;
+
+        setTimeout(() => {
+          state.clicks.allowPageSizeClick = true;
+        }, 1500);
+      }
+    );
+
+    // Watch for state.search and if it changes allow user to click search button
+    watch(
+      () => state.search,
+      () => {
+        state.clicks.allowSearchClick = true;
       }
     );
 

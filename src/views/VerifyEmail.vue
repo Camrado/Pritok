@@ -53,6 +53,14 @@ export default {
     });
 
     onMounted(() => {
+      if (!store.getters['User/GET_SIGNED_IN']) {
+        toast.info('First you must sign up');
+        return router.push('/signup');
+      } else if (store.getters['User/GET_CONFIRMED']) {
+        toast.info("You've already confirmed your e-mail");
+        return router.push('/');
+      }
+
       getEmail();
     });
 

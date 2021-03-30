@@ -47,7 +47,7 @@ export const Categories = {
 
   actions: {
     async SELECT_DATA({ commit, getters }) {
-      commit('NULL_CONTENT'); // Clearing data before adding new one
+      await commit('NULL_CONTENT'); // Clearing data before adding new one
 
       let url = `${getters.GET_URL}?limit=${getters.GET_PAGE_SIZE}&skip=${getters.GET_SKIP}&search=${getters.GET_SEARCH}`;
 
@@ -88,7 +88,7 @@ export const Categories = {
     },
 
     async SET_CONTENT_FOR_PURCHASES({ commit, getters }) {
-      commit('NULL_CONTENT_FOR_PURCHASES'); // Clearing data before adding new one
+      await commit('NULL_CONTENT_FOR_PURCHASES'); // Clearing data before adding new one
 
       const response = await fetch(getters.GET_URL, {
         headers: {

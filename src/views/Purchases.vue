@@ -15,13 +15,7 @@
     <div class="row align-items-center mt-3" v-if="state.showContent === true">
       <!-- Search bar -->
       <div class="col-5">
-        <el-input
-          placeholder="Search"
-          v-model="state.search"
-          v-on:keyup.esc="state.search = ''"
-          v-on:keyup.enter="setSearchAndReload()"
-          clearable
-        >
+        <el-input placeholder="Search" v-model="state.search" v-on:keyup.esc="state.search = ''" clearable>
           <template #append>
             <el-button icon="el-icon-search" @click="setSearchAndReload()" />
           </template>
@@ -30,7 +24,7 @@
       <!-- Show n purchases per page -->
       <div class="col text-right">
         <span>Show </span>
-        <el-select v-model.number="state.pageSize" style="width: 72px;">
+        <el-select v-model.number="state.pageSize" style="width: 72px;" :disabled="!state.clicks.allowPageSizeClick">
           <el-option class="pl-3" value="10">10</el-option>
           <el-option class="pl-3" value="25">25</el-option>
           <el-option class="pl-3" value="50">50</el-option>
@@ -60,6 +54,8 @@ import PurchasesTable from '@/components/Purchases/PurchasesTable.vue';
 import InsertBtn from '@/components/Purchases/insertBtn.vue';
 import { useStore } from 'vuex';
 import { computed, onMounted, reactive, watch } from 'vue';
+import { useToast } from 'vue-toastification';
+import { useRouter } from 'vue-router';
 
 export default {
   name: 'Purchase',
@@ -67,6 +63,8 @@ export default {
 
   setup() {
     const store = useStore();
+    const toast = useToast();
+    const router = useRouter();
     const state = reactive({
       search: '',
       pageSize: store.getters['Purchases/GET_PAGE_SIZE'],
@@ -74,10 +72,23 @@ export default {
       toDate: null,
       loading: false,
       showErrorMessage: false,
-      showContent: computed(() => store.getters['Purchases/GET_SHOW_CONTENT'])
+      showContent: computed(() => store.getters['Purchases/GET_SHOW_CONTENT']),
+      clicks: {
+        allowSearchClick: true,
+        allowSubmitClick: true,
+        allowPageSizeClick: true
+      }
     });
 
     onMounted(async () => {
+      if (!store.getters['User/GET_SIGNED_IN']) {
+        router.push('/signup');
+        return toast.info('You have to sign up before accessing this page');
+      } else if (store.getters['User/GET_SIGNED_IN'] && !store.getters['User/GET_CONFIRMED']) {
+        router.push('/confirm-email');
+        return toast.info('You have to confirm your account before accessing this page');
+      }
+
       if (store.getters['Purchases/GET_FROM_DATE'] && store.getters['Purchases/GET_TO_DATE']) {
         state.fromDate = store.getters['Purchases/GET_FROM_DATE'];
         state.toDate = store.getters['Purchases/GET_TO_DATE'];
@@ -88,10 +99,7 @@ export default {
         state.toDate = new Date().toJSON().slice(0, 10);
       }
 
-      state.loading = true;
-      await store.dispatch('Purchases/SET_SEARCH', '');
-      await store.dispatch('Purchases/SELECT_DATA');
-      state.loading = false;
+      store.dispatch('Purchases/SET_SEARCH', '');
     });
 
     // Return String type like 2021-01-01 from Date type
@@ -108,6 +116,9 @@ export default {
     }
 
     async function setDateAndReload() {
+      if (state.clicks.allowSubmitClick === false) return false;
+      state.clicks.allowSubmitClick = false;
+
       state.loading = true;
       try {
         await store.dispatch('Purchases/SET_SKIP', 0);
@@ -123,6 +134,9 @@ export default {
     }
 
     async function setSearchAndReload() {
+      if (state.clicks.allowSearchClick === false) return false;
+      state.clicks.allowSearchClick = false;
+
       state.loading = true;
       await store.dispatch('Purchases/SET_SKIP', 0);
       await store.dispatch('Purchases/SET_SEARCH', state.search);
@@ -134,11 +148,38 @@ export default {
     // Watch for state.pageSize and dispatch if needed
     watch(
       () => state.pageSize,
-      (newPageSize) => {
+      async (newPageSize) => {
+        state.clicks.allowPageSizeClick = false;
         state.loading = true;
-        store.dispatch('Purchases/SET_PAGE_SIZE', +newPageSize);
-        store.dispatch('Purchases/SELECT_DATA');
+        await store.dispatch('Purchases/SET_PAGE_SIZE', +newPageSize);
+        await store.dispatch('Purchases/SELECT_DATA');
         state.loading = false;
+
+        setTimeout(() => {
+          state.clicks.allowPageSizeClick = true;
+        }, 1500);
+      }
+    );
+
+    // Watch for state.search and if it changes allow user to click search button
+    watch(
+      () => state.search,
+      () => {
+        state.clicks.allowSearchClick = true;
+      }
+    );
+
+    // Watch for state.fromDate and state.toDate and if one of them changes allow user to click submit button
+    watch(
+      () => state.fromDate,
+      () => {
+        state.clicks.allowSubmitClick = true;
+      }
+    );
+    watch(
+      () => state.toDate,
+      () => {
+        state.clicks.allowSubmitClick = true;
       }
     );
 

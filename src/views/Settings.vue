@@ -39,7 +39,7 @@
 <script>
 import changeName from '@/components/User/changeName.vue';
 import changePassword from '@/components/User/changePassword.vue';
-import { computed, reactive } from 'vue';
+import { computed, onMounted, reactive } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 import { useToast } from 'vue-toastification';
@@ -54,6 +54,13 @@ export default {
 
     const state = reactive({
       isConfirmed: computed(() => store.getters['User/GET_CONFIRMED'])
+    });
+
+    onMounted(() => {
+      if (!store.getters['User/GET_SIGNED_IN']) {
+        toast.info('You have to sign up before accessing this page');
+        return router.push('/signup');
+      }
     });
 
     function logout() {

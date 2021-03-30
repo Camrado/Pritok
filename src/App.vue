@@ -1,7 +1,6 @@
 <template>
-  <div>
-    <!-- <Preloader /> -->
-
+  <Preloader v-if="state.showPreloader" />
+  <div v-else>
     <div v-if="route.name !== 'SignIn' && route.name !== 'SignUp' && route.name !== 'NotFound'">
       <NavBar />
 
@@ -29,10 +28,10 @@ import { useStore } from 'vuex';
 import { useToast } from 'vue-toastification';
 import { useRoute } from 'vue-router';
 import NavBar from '@/components/NavBar.vue';
-// import Preloader from '@/components/Preloader.vue';
+import Preloader from '@/components/Preloader.vue';
 
 export default {
-  components: { NavBar /*, Preloader*/ },
+  components: { NavBar, Preloader },
 
   setup() {
     const store = useStore();
@@ -45,11 +44,12 @@ export default {
           if (store.getters['GET_IS_NAV_OPEN']) return '15rem';
           return '0';
         })
-      }
+      },
+      showPreloader: true
     });
 
     onMounted(async () => {
-      if (!localStorage.getItem(store.getters['User/GET_JWT'])) return;
+      if (!localStorage.getItem(store.getters['User/GET_JWT'])) return (state.showPreloader = false);
 
       const response = await fetch(store.getters['User/GET_URL'] + '/me', {
         method: 'GET',
@@ -57,8 +57,18 @@ export default {
           Authorization: localStorage.getItem(store.getters['User/GET_JWT'])
         }
       });
-      if (response.status === 406) return localStorage.removeItem(store.getters['User/GET_JWT']);
-      if (response.status !== 200) return toast.error('Something went wrong...');
+      if (response.status === 406) {
+        await store.dispatch('User/SET_SIGNED_IN', false);
+        await store.dispatch('User/SET_CONFIRMED', false);
+        state.showPreloader = false;
+        return localStorage.removeItem(store.getters['User/GET_JWT']);
+      }
+      if (response.status !== 200) {
+        await store.dispatch('User/SET_SIGNED_IN', false);
+        await store.dispatch('User/SET_CONFIRMED', false);
+        state.showPreloader = false;
+        return toast.error('Something went wrong...');
+      }
 
       const user = await response.json();
 
@@ -66,6 +76,8 @@ export default {
       await store.dispatch('User/SET_CONFIRMED', user.isVerified);
       await store.dispatch('User/SET_EMAIL', user.email);
       await store.dispatch('User/SET_NAME', user.name);
+
+      state.showPreloader = false;
     });
 
     return { state, route };

@@ -3,12 +3,12 @@
     <el-table :data="content" :default-sort="{ prop: 'name', order: 'ascending' }" style="width: 100%" v-loading="state.loading">
       <el-table-column prop="name" label="Name" width="280" />
       <el-table-column prop="description" label="Description" />
-      <el-table-column lable="Operations" width="45" fixed="right">
+      <el-table-column lable="Operations" width="45">
         <template #default="scope">
           <updateBtn :_id="scope.row._id" />
         </template>
       </el-table-column>
-      <el-table-column lable="Operations" width="45" fixed="right">
+      <el-table-column lable="Operations" width="45">
         <template #default="scope">
           <deleteBtn :_id="scope.row._id" />
         </template>

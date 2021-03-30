@@ -1,6 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import { useToast } from 'vue-toastification';
-import store from '@/store/index.js';
 
 const routes = [
   {
@@ -89,34 +87,6 @@ router.resolve({
 
 router.afterEach((to) => {
   document.title = to.meta.title;
-});
-
-router.beforeResolve((to, from, next) => {
-  const toast = useToast();
-  let isConfirmed = store.getters['User/GET_CONFIRMED'];
-  let isSignedIn = store.getters['User/GET_SIGNED_IN'];
-
-  if ((to.name === 'Purchases' || to.name === 'Categories') && !isSignedIn) {
-    toast.info('You have to sign up before accessing this page');
-    next({ name: 'SignUp' });
-  } else if ((to.name === 'Purchases' || to.name === 'Categories') && isSignedIn && !isConfirmed) {
-    toast.info('You have to confirm your account before accessing this page');
-    next({ name: 'VerifyEmail' });
-  } else if ((to.name === 'SignIn' || to.name === 'SignUp') && isSignedIn) {
-    toast.info("You're already signed in");
-    next({ name: 'Home' });
-  } else if (to.name === 'VerifyEmail' && !isSignedIn) {
-    toast.info('First you must sign up');
-    next({ name: 'SignUp' });
-  } else if (to.name === 'VerifyEmail' && isConfirmed) {
-    toast.info("You've already confirmed your e-mail");
-    next({ name: 'Home' });
-  } else if (to.name === 'Settings' && !isSignedIn) {
-    toast.info('You have to sign up before accessing this page');
-    next({ name: 'SignUp' });
-  } else {
-    next();
-  }
 });
 
 export default router;

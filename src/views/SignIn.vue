@@ -55,7 +55,7 @@
 
 <script>
 import { isEmailValid, emailValidator, isPasswordValid, passwordValidator } from '@/assets/js/userValidators.js';
-import { reactive } from 'vue';
+import { onMounted, reactive } from 'vue';
 import { useToast } from 'vue-toastification';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
@@ -76,6 +76,13 @@ export default {
         password: [{ validator: passwordValidator, trigger: 'blur' }]
       },
       loadingBtn: false
+    });
+
+    onMounted(() => {
+      if (store.getters['User/GET_SIGNED_IN']) {
+        toast.info("You're already signed in");
+        router.push('/');
+      }
     });
 
     function submitForm() {

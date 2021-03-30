@@ -6,14 +6,7 @@
 
 <script>
 export default {
-  name: 'Preloader',
-
-  setup() {
-    window.addEventListener('load', function() {
-      const loader = document.querySelector('.loader');
-      loader.className += ' hidden'; //? "loader hidden"
-    });
-  }
+  name: 'Preloader'
 };
 </script>
 
@@ -41,9 +34,5 @@ export default {
     background-size: cover;
     background-repeat: no-repeat;
   }
-}
-
-.loader.hidden {
-  display: none;
 }
 </style>

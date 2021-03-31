@@ -11,7 +11,11 @@
           clearable
         >
           <template #append>
-            <el-button icon="el-icon-search" @click="setSearchAndReload()" />
+            <el-button
+              icon="el-icon-search"
+              @click="setSearchAndReload()"
+              :disabled="!(state.clicks.allowSearchClick && state.allowClick)"
+            />
           </template>
         </el-input>
       </div>
@@ -91,13 +95,9 @@ export default {
         await store.dispatch('Categories/SET_SEARCH', '');
         await store.dispatch('Categories/SELECT_DATA');
         state.showContent = true;
-        // state.loading = false;
-        // state.allowClick = true;
       } catch {
         state.showContent = false;
         state.showErrorMessage = true;
-        // state.loading = false;
-        // state.allowClick = true;
       } finally {
         state.loading = false;
         state.allowClick = true;
@@ -105,8 +105,8 @@ export default {
     });
 
     async function setSearchAndReload() {
-      if (!state.allowClick) return false;
-      if (!state.clicks.allowSearchClick) return false;
+      // if (!state.allowClick) return false;
+      // if (!state.clicks.allowSearchClick) return false;
       state.allowClick = false;
       state.clicks.allowSearchClick = false;
 
@@ -125,7 +125,6 @@ export default {
       async (newPageSize) => {
         state.allowClick = false;
         state.clicks.allowPageSizeClick = false;
-        state.clicks.allowSearchClick = false;
         state.loading = true;
         await store.dispatch('Categories/SET_PAGE_SIZE', +newPageSize);
         await store.dispatch('Categories/SELECT_DATA');
@@ -133,9 +132,8 @@ export default {
 
         setTimeout(() => {
           state.clicks.allowPageSizeClick = true;
+          state.allowClick = true;
         }, 1500);
-        state.clicks.allowSearchClick = true;
-        state.allowClick = true;
       }
     );
 

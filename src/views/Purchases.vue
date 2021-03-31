@@ -17,7 +17,11 @@
       <div class="col-5">
         <el-input placeholder="Search" v-model="state.search" v-on:keyup.esc="state.search = ''" clearable>
           <template #append>
-            <el-button icon="el-icon-search" @click="setSearchAndReload()" />
+            <el-button
+              icon="el-icon-search"
+              @click="setSearchAndReload()"
+              :disabled="!(state.clicks.allowSearchClick && state.allowClick)"
+            />
           </template>
         </el-input>
       </div>
@@ -167,9 +171,9 @@ export default {
         await store.dispatch('Purchases/SELECT_DATA');
         state.loading = false;
 
-        state.allowClick = true;
         setTimeout(() => {
           state.clicks.allowPageSizeClick = true;
+          state.allowClick = true;
         }, 1500);
       }
     );

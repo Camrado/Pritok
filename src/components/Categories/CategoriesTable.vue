@@ -16,15 +16,7 @@
     </el-table>
 
     <!-- FOOTER -->
-    <nav v-if="state.pageNum.length !== 1 && content.length !== 0" class="mt-2 d-flex justify-content-between align-items-center">
-      <!-- SHOWING 1 TO 10 OF 14 CATEGORIES -->
-      <p>
-        Showing {{ (state.currentPage - 1) * pageSize + 1 }} to
-        <span>{{ state.currentPage * pageSize }}</span>
-        of
-        {{ state.pageNum.length * pageSize }} categories
-      </p>
-
+    <nav v-if="state.pageNum.length !== 1 && content.length !== 0" class="mt-3 text-right">
       <!-- PAGINATION -->
       <el-pagination
         background

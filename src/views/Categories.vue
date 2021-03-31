@@ -18,7 +18,11 @@
       <!-- Show n categories per page -->
       <div class="col text-right">
         <span>Show </span>
-        <el-select v-model.number="state.pageSize" style="width: 72px;" :disabled="!state.clicks.allowPageSizeClick">
+        <el-select
+          v-model.number="state.pageSize"
+          style="width: 72px;"
+          :disabled="!(state.clicks.allowPageSizeClick && state.allowClick)"
+        >
           <el-option class="pl-3" value="10">10</el-option>
           <el-option class="pl-3" value="25">25</el-option>
           <el-option class="pl-3" value="50">50</el-option>
@@ -67,9 +71,10 @@ export default {
       showContent: false,
       showErrorMessage: false,
       clicks: {
-        allowSearchClick: true,
+        allowSearchClick: false,
         allowPageSizeClick: true
-      }
+      },
+      allowClick: false
     });
 
     onMounted(async () => {
@@ -86,16 +91,23 @@ export default {
         await store.dispatch('Categories/SET_SEARCH', '');
         await store.dispatch('Categories/SELECT_DATA');
         state.showContent = true;
-        state.loading = false;
+        // state.loading = false;
+        // state.allowClick = true;
       } catch {
         state.showContent = false;
         state.showErrorMessage = true;
+        // state.loading = false;
+        // state.allowClick = true;
+      } finally {
         state.loading = false;
+        state.allowClick = true;
       }
     });
 
     async function setSearchAndReload() {
-      if (state.clicks.allowSearchClick === false) return false;
+      if (!state.allowClick) return false;
+      if (!state.clicks.allowSearchClick) return false;
+      state.allowClick = false;
       state.clicks.allowSearchClick = false;
 
       state.loading = true;
@@ -104,13 +116,16 @@ export default {
       await store.dispatch('Categories/SELECT_DATA');
       await store.dispatch('Categories/SET_CURRENT_PAGE', 1);
       state.loading = false;
+      state.allowClick = true;
     }
 
     // Watch for state.pageSize and dispatch if needed
     watch(
       () => state.pageSize,
       async (newPageSize) => {
+        state.allowClick = false;
         state.clicks.allowPageSizeClick = false;
+        state.clicks.allowSearchClick = false;
         state.loading = true;
         await store.dispatch('Categories/SET_PAGE_SIZE', +newPageSize);
         await store.dispatch('Categories/SELECT_DATA');
@@ -119,6 +134,8 @@ export default {
         setTimeout(() => {
           state.clicks.allowPageSizeClick = true;
         }, 1500);
+        state.clicks.allowSearchClick = true;
+        state.allowClick = true;
       }
     );
 

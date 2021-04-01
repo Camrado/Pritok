@@ -8,7 +8,9 @@
           <el-date-picker v-model="state.fromDate" type="date" placeholder="Pick a day" class="mx-3" />
           <p class="m-0">to</p>
           <el-date-picker v-model="state.toDate" type="date" placeholder="Pick a day" class="mx-3" />
-          <el-button type="primary" @click="setDateAndReload()">Submit</el-button>
+          <el-button type="primary" @click="setDateAndReload()" :disabled="!(state.clicks.allowSubmitClick && state.allowClick)"
+            >Submit</el-button
+          >
         </div>
       </div>
     </div>
@@ -84,9 +86,9 @@ export default {
       clicks: {
         allowSearchClick: false,
         allowSubmitClick: true,
-        allowPageSizeClick: true
+        allowPageSizeClick: false
       },
-      allowClick: false
+      allowClick: true
     });
 
     onMounted(async () => {
@@ -143,11 +145,10 @@ export default {
       }
 
       state.allowClick = true;
+      state.clicks.allowPageSizeClick = true;
     }
 
     async function setSearchAndReload() {
-      if (!state.allowClick) return false;
-      if (!state.clicks.allowSearchClick) return false;
       state.allowClick = false;
       state.clicks.allowSearchClick = false;
 

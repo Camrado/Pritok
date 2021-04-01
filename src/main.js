@@ -7,10 +7,6 @@ import 'vue-toastification/dist/index.css';
 import ElementPlus from 'element-plus';
 import 'element-plus/lib/theme-chalk/index.css';
 
-// Log Rocket
-import LogRocket from 'logrocket';
-LogRocket.init('hm3jqn/pritok-prod');
-
 // vue-toastification options
 const options = {
   position: 'bottom-left',

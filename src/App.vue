@@ -29,6 +29,7 @@ import { useToast } from 'vue-toastification';
 import { useRoute } from 'vue-router';
 import NavBar from '@/components/NavBar.vue';
 import Preloader from '@/components/Preloader.vue';
+import LogRocket from 'logrocket';
 
 export default {
   components: { NavBar, Preloader },
@@ -77,6 +78,16 @@ export default {
       await store.dispatch('User/SET_EMAIL', user.email);
       await store.dispatch('User/SET_NAME', user.name);
 
+      // Log Rocket
+      LogRocket.init('hm3jqn/pritok-prod');
+      LogRocket.identify('user', {
+        name: store.getters['User/GET_NAME'] || 'Unregistered',
+        email: store.getters['User/GET_EMAIL'] || '',
+
+        // Add your own custom user variables here, ie:
+        isSignedIn: store.getters['User/GET_SIGNED_IN'],
+        isConfirmed: store.getters['User/GET_CONFIRMED']
+      });
       state.showPreloader = false;
     });
 

@@ -6,10 +6,14 @@ function nameValidator(rule, value, callback) {
     isNameValid = false;
     isSettingsNameValid = false;
     callback(new Error('Name field is required'));
-  } else if (!/^[a-zA-Z ]{2,20}$/.test(value) && value) {
+  } else if (value.length < 2) {
     isNameValid = false;
     isSettingsNameValid = false;
-    callback(new Error('Only letters and spaces. Minimum 2, maximum 20 characters.'));
+    callback(new Error('Minimum 2 characters'));
+  } else if (value.length > 20) {
+    isNameValid = false;
+    isSettingsNameValid = false;
+    callback(new Error('Maximum 20 characters'));
   } else {
     isNameValid = true;
     isSettingsNameValid = true;
@@ -43,12 +47,6 @@ function passwordValidator(rule, value, callback) {
   } else if (value.length < 6) {
     isPasswordValid = false;
     callback(new Error('Password must contain at least 6 characters'));
-  } else if (value.search(/[a-z]/i) < 0) {
-    isPasswordValid = false;
-    callback(new Error('Password must contain at least one letter'));
-  } else if (value.search(/[0-9]/) < 0) {
-    isPasswordValid = false;
-    callback(new Error('Password must contain at least one digit'));
   } else {
     isPasswordValid = true;
     callback();
@@ -64,12 +62,6 @@ function newPasswordValidator(rule, value, callback) {
   } else if (value.length < 6) {
     isNewPasswordValid = false;
     callback(new Error('Password must contain at least 6 characters'));
-  } else if (value.search(/[a-z]/i) < 0) {
-    isNewPasswordValid = false;
-    callback(new Error('Password must contain at least one letter'));
-  } else if (value.search(/[0-9]/) < 0) {
-    isNewPasswordValid = false;
-    callback(new Error('Password must contain at least one digit'));
   } else {
     isNewPasswordValid = true;
     callback();
@@ -85,12 +77,6 @@ function confirmNewPasswordValidator(rule, value, callback) {
   } else if (value.length < 6) {
     isConfirmNewPasswordValid = false;
     callback(new Error('Password must contain at least 6 characters'));
-  } else if (value.search(/[a-z]/i) < 0) {
-    isConfirmNewPasswordValid = false;
-    callback(new Error('Password must contain at least one letter'));
-  } else if (value.search(/[0-9]/) < 0) {
-    isConfirmNewPasswordValid = false;
-    callback(new Error('Password must contain at least one digit'));
   } else {
     isConfirmNewPasswordValid = true;
     callback();

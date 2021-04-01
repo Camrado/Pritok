@@ -6,10 +6,10 @@ function itemValidator(rule, value, callback) {
     isItemValid = false;
     isUpdatedItemValid = false;
     callback(new Error('Product field is required'));
-  } else if (!/^[a-zA-Z\s]*$/.test(value) && value) {
+  } else if (value.length < 2) {
     isItemValid = false;
     isUpdatedItemValid = false;
-    callback(new Error('Only letters/spaces'));
+    callback(new Error('Minimum 2 characters'));
   } else {
     isItemValid = true;
     isUpdatedItemValid = true;

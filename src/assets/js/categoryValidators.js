@@ -6,10 +6,10 @@ function nameValidator(rule, value, callback) {
     isNameValid = false;
     isUpdatedNameValid = false;
     callback(new Error('Name field is required'));
-  } else if (!/^[a-zA-Z\s]*$/.test(value) && value) {
+  } else if (value.length < 2) {
     isNameValid = false;
     isUpdatedNameValid = false;
-    callback(new Error('Only letters/spaces'));
+    callback(new Error('Minimum 2 characters'));
   } else {
     isNameValid = true;
     isUpdatedNameValid = true;
@@ -25,10 +25,10 @@ function descriptionValidator(rule, value, callback) {
     isDescriptionValid = false;
     isUpdatedDescriptionValid = false;
     callback(new Error('Description field is required'));
-  } else if (!/^[a-zA-Z0-9,.!? ]*$/.test(value) && value) {
+  } else if (value.length < 2) {
     isDescriptionValid = false;
     isUpdatedDescriptionValid = false;
-    callback(new Error('Only letters/spaces/numbers/full stops/commas'));
+    callback(new Error('Minimum 2 characters'));
   } else {
     isDescriptionValid = true;
     isUpdatedDescriptionValid = true;

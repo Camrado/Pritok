@@ -86,7 +86,7 @@ export default {
       clicks: {
         allowSearchClick: false,
         allowSubmitClick: true,
-        allowPageSizeClick: false
+        allowPageSizeClick: true
       },
       allowClick: true
     });
